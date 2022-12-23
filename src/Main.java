@@ -41,7 +41,12 @@ public class Main {
     }   
 
     //Metodo para descargar la pagina y retornarla en string
-    private static String getWebContenido(String link){
+    //Bloquear la funcion para que no se ejecute en paralelo "synchronized" para que no la puedean usar hasta que termine
+    
+    private synchronized static String getWebContenido(String link){
+        System.out.println("Inicio de descarga");
+        //Imprime el enlace que esta descargando
+        System.out.println("Descargando: "+link);
         try {
         //Download webs
         URL url = new URL(link);
@@ -52,6 +57,7 @@ public class Main {
         
         Stream<String> lines =  new BufferedReader(new InputStreamReader(input))
             .lines();
+            System.out.println("Fin de descarga");
             return lines.collect(Collectors.joining("\n"));
         }catch (IOException e) {
             //e.printStackTrace();
